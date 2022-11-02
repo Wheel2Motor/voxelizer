@@ -13,7 +13,7 @@
 > 你可能需要先将Makefile中的voxelizer.dll字样改成voxelizer.so，然后使用make命令。
 > 至于要不要给voxelizer.exe改成voxelizer，看你心情。
 > # 参考
-> [STL模型像素化]([链接地址](https://zhuanlan.zhihu.com/p/410306876))
+> [STL模型像素化](https://zhuanlan.zhihu.com/p/410306876)
 
 ---
 
@@ -32,7 +32,7 @@
 > You might need to substitute voxelizer.dll pattern with voxelizer.so, then use make command.
 > As for substituting voxelizer.exe with voxelizer, it's up to you.
 > # Reference
-> [STL Mesh Voxelize]([链接地址](https://zhuanlan.zhihu.com/p/410306876))
+> [STL Mesh Voxelize](https://zhuanlan.zhihu.com/p/410306876)
 
 ---
 
