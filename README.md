@@ -1,5 +1,4 @@
 > # Voxelizer
-
 > 用C语言编写的Voxelizer，没有任何依赖项。
 > 提供了快速的网格体积计算和点云生成以及体素化。
 > # 我为什么要编写这个模块
@@ -16,23 +15,17 @@
 
 
 
-# Voxelizer
-
-Voxelizer writen in C without any dependencies.
-Fast mesh volume accumulation, point cloud generation and voxelization functionalities are provided. 
-
-# Why I wrote this module
-
-I've faced the need for calculate mesh volume in approximation, but no lightweight **voxelizer** which includes no dependency and was coded in pure C was found on GitHub, the only one I've found has some bugs. 
-
-# Attention
-
-This module only support triangle faces, polygons are not supported.
-
-# Compile
-## Windows
-In Mingw environments, use make command to generate a dll and a exe file used for test. Dll can be used in python, follow example.py.
-If your working environment is Visual Studio, add voxelizer.c and voxlizer.h into your project and compile, as for how to use, it's up to you.
-## Unix-Like
-You might need to substitute voxelizer.dll pattern with voxelizer.so, then use make command.
-As for substituting voxelizer.exe with voxelizer, it's up to you.
+> # Voxelizer
+> Voxelizer writen in C without any dependencies.
+> Fast mesh volume accumulation, point cloud generation and voxelization functionalities are provided. 
+> # Why I wrote this module
+> I've faced the need for calculate mesh volume in approximation, but no lightweight **voxelizer** which includes no dependency and was coded in pure C was found on GitHub, the only one I've found has some bugs. 
+> # Attention
+> This module only support triangle faces, polygons are not supported.
+> # Compile
+> ## Windows
+> In Mingw environments, use make command to generate a dll and a exe file used for test. Dll can be used in python, follow example.py.
+> If your working environment is Visual Studio, add voxelizer.c and voxlizer.h into your project and compile, as for how to use, it's up to you.
+> ## Unix-Like
+> You might need to substitute voxelizer.dll pattern with voxelizer.so, then use make command.
+> As for substituting voxelizer.exe with voxelizer, it's up to you.
