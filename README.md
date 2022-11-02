@@ -13,7 +13,7 @@
 > 你可能需要先将Makefile中的voxelizer.dll字样改成voxelizer.so，然后使用make命令。
 > 至于要不要给voxelizer.exe改成voxelizer，看你心情。
 
-
+---------
 
 > # Voxelizer
 > Voxelizer writen in C without any dependencies.
