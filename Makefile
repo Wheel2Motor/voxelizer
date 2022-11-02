@@ -12,8 +12,8 @@ voxelizer.dll: voxelizer.o
 	$(CC) -shared -o $@ $^
 
 
-voxelizer.exe: example.c voxelizer.c
-	$(CC) -o $@ $^ -O3 -DNDEBUG
+voxelizer.exe: example/example.c voxelizer.c
+	$(CC) -o $@ $^ -O3 -DNDEBUG -I.
 
 
 .PHONY: run clean
