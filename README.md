@@ -1,10 +1,3 @@
-![img1](img/img1.png)
-![img2](img/img2.png)
-![img3](img/img3.png)
-![img4](img/img4.png)
-
----
-
 > # Voxelizer
 > 用C语言编写的Voxelizer，没有任何依赖项。
 > 提供了快速的网格体积计算和点云生成以及体素化。
@@ -19,6 +12,8 @@
 > ## Unix-Like
 > 你可能需要先将Makefile中的voxelizer.dll字样改成voxelizer.so，然后使用make命令。
 > 至于要不要给voxelizer.exe改成voxelizer，看你心情。
+> # 参考
+> [STL模型像素化]([链接地址](https://zhuanlan.zhihu.com/p/410306876))
 
 ---
 
@@ -36,3 +31,12 @@
 > ## Unix-Like
 > You might need to substitute voxelizer.dll pattern with voxelizer.so, then use make command.
 > As for substituting voxelizer.exe with voxelizer, it's up to you.
+> # Reference
+> [STL Mesh Voxelize]([链接地址](https://zhuanlan.zhihu.com/p/410306876))
+
+---
+
+![img1](img/img1.png)
+![img2](img/img2.png)
+![img3](img/img3.png)
+![img4](img/img4.png)
