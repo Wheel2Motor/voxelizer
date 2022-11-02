@@ -36,10 +36,10 @@ _vl_volume_from_mesh.restype = ctypes.c_double
 
 def vl_volume_from_mesh(verts, faces, vsize):
     nverts = len(verts)
-    nfaces = len(faces)
+    nfaces = int(len(faces) / 3)
     c_verts = (VL_Vector3 * nverts)(*verts)
     c_nverts = ctypes.c_size_t(nverts)
-    c_faces = (ctypes.c_size_t * nfaces)(*faces)
+    c_faces = (ctypes.c_size_t * int(nfaces * 3))(*faces)
     c_nfaces = ctypes.c_size_t(nfaces)
     c_vsize = ctypes.c_double(vsize)
     c_volume = _vl_volume_from_mesh(c_verts, c_nverts, c_faces, c_nfaces, c_vsize)
