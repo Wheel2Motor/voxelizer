@@ -369,7 +369,7 @@ extern VL_Float vl_volume_from_mesh(
 }
 
 
-extern void vl_mesh_from_in_point_cloud(
+extern void vl_mesh_from_point_cloud(
 	_VL_OUT_ VL_Vector3F ** const      out_verts,
 	_VL_OUT_ VL_Size * const           out_nverts,
 	_VL_OUT_ VL_Size ** const          out_faces,
