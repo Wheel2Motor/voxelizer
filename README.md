@@ -2,7 +2,8 @@
 > 用C语言编写的Voxelizer，没有任何依赖项。
 > 提供了快速的网格体积计算和点云生成以及体素化。
 > # 我为什么要编写这个模块
-> 我遇到了一个需要粗略计算模型体积的需求，但是在GitHub上没有一个轻量无依赖的纯C代码实现的Voxelizer，仅有的一个还有一些bug。 
+> 我遇到了一个需要粗略计算模型体积的需求，但是在GitHub上没有一个轻量无依赖的纯C代码实现的Voxelizer，仅有的一个还有一些bug。
+> 另外，我希望该实现能够轻松集成到Python进行使用。 
 > # 注意
 > 该模块只支持三角面，不支持多边形。
 > # 编译
@@ -22,6 +23,7 @@
 > Fast mesh volume accumulation, point cloud generation and voxelization functionalities are provided. 
 > # Why I wrote this module
 > I've faced the need for calculate mesh volume in approximation, but no lightweight **voxelizer** which includes no dependency and was coded in pure C was found on GitHub, the only one I've found has some bugs. 
+> In addition, I hope the implementation can be embeded into python easyly.
 > # Attention
 > This module only support triangle faces, polygons are not supported.
 > # Compile
