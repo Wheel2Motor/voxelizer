@@ -1,3 +1,10 @@
+![img1](img/img1.png)
+![img2](img/img2.png)
+![img3](img/img3.png)
+![img4](img/img4.png)
+
+---
+
 > # Voxelizer
 > 用C语言编写的Voxelizer，没有任何依赖项。
 > 提供了快速的网格体积计算和点云生成以及体素化。
@@ -13,7 +20,7 @@
 > 你可能需要先将Makefile中的voxelizer.dll字样改成voxelizer.so，然后使用make命令。
 > 至于要不要给voxelizer.exe改成voxelizer，看你心情。
 
----------
+---
 
 > # Voxelizer
 > Voxelizer writen in C without any dependencies.
