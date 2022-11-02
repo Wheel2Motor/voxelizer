@@ -31,7 +31,7 @@ typedef enum {
  * TODO
  * I'm going to add multi-thread support
  */
-static size_t vl_get_cpu_count() {
+static VL_Size vl_get_cpu_count() {
 	long nprocs = -1;
 #ifdef _WIN32
 	#ifndef _SC_NPROCESSORS_ONLN
@@ -52,50 +52,50 @@ static size_t vl_get_cpu_count() {
 
 
 static bool vl_is_voxel_tri_intersected_proj(
-	VL_ProjectDirection project_axis,
-	const VL_Vector3 * const t0,
-	const VL_Vector3 * const t1,
-	const VL_Vector3 * const t2,
-	const VL_Vector3 * const vcenter,
-	const double vsize
+	_VL_IN_ VL_ProjectDirection project_axis,
+	_VL_IN_ const VL_Vector3F * const t0,
+	_VL_IN_ const VL_Vector3F * const t1,
+	_VL_IN_ const VL_Vector3F * const t2,
+	_VL_IN_ const VL_Vector3F * const vcenter,
+	_VL_IN_ const VL_Float vsize
 	);
 
 
 static bool vl_is_lineseg_intersected_proj(
-	VL_Vector3 * out,
-	VL_ProjectDirection project_axis,
-	const VL_Vector3 * const beg1, const VL_Vector3 * end1,
-	const VL_Vector3 * const beg2, const VL_Vector3 * end2
+	_VL_OUT_ VL_Vector3F * out,
+	_VL_IN_  VL_ProjectDirection project_axis,
+	_VL_IN_  const VL_Vector3F * const beg1, const VL_Vector3F * end1,
+	_VL_IN_  const VL_Vector3F * const beg2, const VL_Vector3F * end2
 	);
 
 
 static bool vl_is_vert_in_tri_proj(
-	VL_ProjectDirection project_axis,
-	const VL_Vector3 * const v,
-	const VL_Vector3 * const t0,
-	const VL_Vector3 * const t1,
-	const VL_Vector3 * const t2
+	_VL_IN_ VL_ProjectDirection project_axis,
+	_VL_IN_ const VL_Vector3F * const v,
+	_VL_IN_ const VL_Vector3F * const t0,
+	_VL_IN_ const VL_Vector3F * const t1,
+	_VL_IN_ const VL_Vector3F * const t2
 	);
 
 
-static void vl_proj_vert_front(VL_Vector3 * dst, const VL_Vector3 * const src) {
-	VL_Vector3 temp = { src->x, src->y, src->z };
+static void vl_proj_vert_front(VL_Vector3F * dst, const VL_Vector3F * const src) {
+	VL_Vector3F temp = { src->x, src->y, src->z };
 	dst->x = temp.x;
 	dst->y = temp.z;
 	dst->z = 0.0;
 }
 
 
-static void vl_proj_vert_left(VL_Vector3 * dst, const VL_Vector3 * const src) {
-	VL_Vector3 temp = { src->x, src->y, src->z };
+static void vl_proj_vert_left(VL_Vector3F * dst, const VL_Vector3F * const src) {
+	VL_Vector3F temp = { src->x, src->y, src->z };
 	dst->x = -temp.y;
 	dst->y =  temp.z;
 	dst->z =  0.0;
 }
 
 
-static void vl_proj_vert_top(VL_Vector3 * dst, const VL_Vector3 * const src) {
-	VL_Vector3 temp = { src->x, src->y, src->z };
+static void vl_proj_vert_top(VL_Vector3F * dst, const VL_Vector3F * const src) {
+	VL_Vector3F temp = { src->x, src->y, src->z };
 	dst->x = temp.x;
 	dst->y = temp.y;
 	dst->z = 0.0;
@@ -103,12 +103,12 @@ static void vl_proj_vert_top(VL_Vector3 * dst, const VL_Vector3 * const src) {
 
 
 static bool vl_is_lineseg_intersected_proj(
-	VL_Vector3 * out,
-	VL_ProjectDirection project_axis,
-	const VL_Vector3 * const beg1, const VL_Vector3 * const end1,
-	const VL_Vector3 * const beg2, const VL_Vector3 * const end2
+	_VL_OUT_ VL_Vector3F * out,
+	_VL_IN_  VL_ProjectDirection project_axis,
+	_VL_IN_  const VL_Vector3F * const beg1, const VL_Vector3F * const end1,
+	_VL_IN_  const VL_Vector3F * const beg2, const VL_Vector3F * const end2
 	) {
-	VL_Vector3 a, b, c, d;
+	VL_Vector3F a, b, c, d;
 	switch (project_axis) {
 		case VL_EProjectNone:
 			a.x = beg1->x; a.y = beg1->y; a.z = beg1->z;
@@ -135,19 +135,19 @@ static bool vl_is_lineseg_intersected_proj(
 			vl_proj_vert_top(&d, end2);
 			break;
 	}
-	double area_abc = (a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x);
-	double area_abd = (a.x - d.x) * (b.y - d.y) - (a.y - d.y) * (b.x - d.x);
+	VL_Float area_abc = (a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x);
+	VL_Float area_abd = (a.x - d.x) * (b.y - d.y) - (a.y - d.y) * (b.x - d.x);
 	if ( area_abc * area_abd >= -FLT_EPSILON ) {
 		return false;
 	}
-	double area_cda = (c.x - a.x) * (d.y - a.y) - (c.y - a.y) * (d.x - a.x);
-	double area_cdb = area_cda + area_abc - area_abd ;
+	VL_Float area_cda = (c.x - a.x) * (d.y - a.y) - (c.y - a.y) * (d.x - a.x);
+	VL_Float area_cdb = area_cda + area_abc - area_abd ;
 	if ( area_cda * area_cdb >= -FLT_EPSILON ) {
 		return false;
 	}
-	double t  = area_cda / ( area_abd - area_abc );
-	double dx = t * (b.x - a.x);
-	double dy = t * (b.y - a.y);
+	VL_Float t  = area_cda / ( area_abd - area_abc );
+	VL_Float dx = t * (b.x - a.x);
+	VL_Float dy = t * (b.y - a.y);
 	if (out) {
 		out->x = a.x + dx;
 		out->y = a.y + dy;
@@ -158,17 +158,17 @@ static bool vl_is_lineseg_intersected_proj(
 
 
 static bool vl_is_voxel_tri_intersected_proj(
-	VL_ProjectDirection project_axis,
-	const VL_Vector3 * const t0,
-	const VL_Vector3 * const t1,
-	const VL_Vector3 * const t2,
-	const VL_Vector3 * const vcenter,
-	const double vsize
+	_VL_IN_ VL_ProjectDirection project_axis,
+	_VL_IN_ const VL_Vector3F * const t0,
+	_VL_IN_ const VL_Vector3F * const t1,
+	_VL_IN_ const VL_Vector3F * const t2,
+	_VL_IN_ const VL_Vector3F * const vcenter,
+	_VL_IN_ const VL_Float vsize
 	) {
-	double halfsize = vsize / 2.0;
-	VL_Vector3 tmin, tmax, vmin, vmax;
-	VL_Vector3 pt0, pt1, pt2, pvcenter;
-	VL_Vector3 box[4];
+	VL_Float halfsize = vsize / 2.0;
+	VL_Vector3F tmin, tmax, vmin, vmax;
+	VL_Vector3F pt0, pt1, pt2, pvcenter;
+	VL_Vector3F box[4];
 	switch (project_axis) {
 		case VL_EProjectNone:
 			pt0.x = t0->x; pt0.y = t0->y; pt0.z = t0->z;
@@ -246,16 +246,16 @@ static bool vl_is_voxel_tri_intersected_proj(
 
 
 static bool vl_is_vert_in_tri_proj(
-	VL_ProjectDirection project_axis,
-	const VL_Vector3 * const v,
-	const VL_Vector3 * const t0,
-	const VL_Vector3 * const t1,
-	const VL_Vector3 * const t2
+	_VL_IN_ VL_ProjectDirection project_axis,
+	_VL_IN_ const VL_Vector3F * const v,
+	_VL_IN_ const VL_Vector3F * const t0,
+	_VL_IN_ const VL_Vector3F * const t1,
+	_VL_IN_ const VL_Vector3F * const t2
 	) {
-	VL_Vector3 pv, pt0, pt1, pt2;
-	VL_Vector3 ab, ac, ap, ba, bc, bp;
-	VL_Vector3 r1, r2, r3, r4;
-	double dot1, dot2;
+	VL_Vector3F pv, pt0, pt1, pt2;
+	VL_Vector3F ab, ac, ap, ba, bc, bp;
+	VL_Vector3F r1, r2, r3, r4;
+	VL_Float dot1, dot2;
 	switch (project_axis) {
 		case VL_EProjectNone:
 			pv.x = v->x; pv.y = v->y; pv.z = v->z;
@@ -306,87 +306,105 @@ static bool vl_is_vert_in_tri_proj(
  */
 
 
-extern void vl_vec3_add(VL_Vector3 * out, const VL_Vector3 * const a, const VL_Vector3 * const b) {
+extern void vl_vec3_add(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x + b->x;
 	out->y = a->y + b->y;
 	out->z = a->z + b->z;
 }
 
 
-extern void vl_vec3_sub(VL_Vector3 * out, const VL_Vector3 * const a, const VL_Vector3 * const b) {
+extern void vl_vec3_sub(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x - b->x;
 	out->y = a->y - b->y;
 	out->z = a->z - b->z;
 }
 
 
-extern void vl_vec3_mul(VL_Vector3 * out, const VL_Vector3 * const a, const VL_Vector3 * const b) {
+extern void vl_vec3_mul(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x * b->x;
 	out->y = a->y * b->y;
 	out->z = a->z * b->z;
 }
 
 
-extern void vl_vec3_div(VL_Vector3 * out, const VL_Vector3 * const a, const VL_Vector3 * const b) {
+extern void vl_vec3_div(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x / b->x;
 	out->y = a->y / b->y;
 	out->z = a->z / b->z;
 }
 
 
-extern void vl_vec3_dot(double * out, const VL_Vector3 * const a, const VL_Vector3 * const b) {
+extern void vl_vec3_dot(VL_Float * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	*out = a->x * b->x + a->y * b->y + a->z * b->z;
 }
 
 
-extern void vl_vec3_cross(VL_Vector3 * out, const VL_Vector3 * const a, const VL_Vector3 * const b) {
+extern void vl_vec3_dist(VL_Float * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+	VL_Float px = a->x * a->x;
+	VL_Float py = a->y * a->y;
+	VL_Float pz = a->z * a->z;
+	*out = sqrt(px + py + pz);
+}
+
+
+extern void vl_vec3_cross(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->y * b->z - a->z * b->y;
 	out->y = a->z * b->x - a->x * b->z;
 	out->y = a->x * b->y - a->y * b->x;
 }
 
 
-extern double vl_volume_from_mesh(
-	const VL_Vector3 * const verts,
-	const size_t nverts,
-	const size_t * const faces,
-	const size_t nfaces,
-	const double vsize
+extern VL_Float vl_volume_from_mesh(
+	_VL_IN_ const VL_Vector3F * const in_verts,
+	_VL_IN_ const VL_Size             in_nverts,
+	_VL_IN_ const VL_Size * const     in_faces,
+	_VL_IN_ const VL_Size             in_nfaces,
+	_VL_IN_ const VL_Float            in_vsize
 	) {
-	size_t npoints = 0;
-	VL_Vector3 * point_cloud;
-	point_cloud = vl_point_cloud_from_mesh(NULL, &npoints, verts, nverts, faces, nfaces, vsize);
+	VL_Size npoints = 0;
+	VL_Vector3F * point_cloud;
+	point_cloud = vl_point_cloud_from_mesh(NULL, &npoints, in_verts, in_nverts, in_faces, in_nfaces, in_vsize);
 	free(point_cloud);
-	return vsize * vsize * vsize * npoints;
+	return in_vsize * in_vsize * in_vsize * npoints;
 }
 
 
-extern void vl_mesh_from_point_cloud(
-	VL_Vector3 ** const verts,
-	size_t * const nverts,
-	size_t ** const faces,
-	size_t * const nfaces,
-	const VL_Vector3 * const point_cloud,
-	size_t npoints,
-	const double vsize
+extern void vl_mesh_from_in_point_cloud(
+	_VL_OUT_ VL_Vector3F ** const      out_verts,
+	_VL_OUT_ VL_Size * const           out_nverts,
+	_VL_OUT_ VL_Size ** const          out_faces,
+	_VL_OUT_ VL_Size * const           out_nfaces,
+	_VL_IN_  const VL_Vector3F * const in_point_cloud,
+	_VL_IN_  VL_Size                   in_npoints,
+	_VL_IN_  const VL_Float             in_vsize
 	) {
-	double       halfsize = vsize / 2.0;
-	size_t       local_nverts = npoints * 8;
-	size_t       local_nfaces = npoints * 12;
-	VL_Vector3 * local_verts  = (VL_Vector3 *)malloc(sizeof(VL_Vector3) * local_nverts);
-	size_t *     local_faces  = (size_t *)malloc(sizeof(size_t) * local_nfaces * 3);
+	VL_Float       halfsize = in_vsize / 2.0;
+	VL_Size       local_nverts = in_npoints * 8;
+	VL_Size       local_nfaces = in_npoints * 12;
+	VL_Vector3F * local_verts  = (VL_Vector3F *)malloc(sizeof(VL_Vector3F) * local_nverts);
+	VL_Size *     local_faces  = (VL_Size *)malloc(sizeof(VL_Size) * local_nfaces * 3);
 
-	for (size_t i = 0; i < npoints; i++) {
-		const VL_Vector3 * const point = point_cloud + i;
+	*out_verts = NULL;
+	*out_nverts = 0;
+	*out_faces = NULL;
+	*out_nfaces = 0;
+	if ((NULL == local_verts) || (NULL == local_faces)) {
+		if (NULL != local_verts) free(local_verts);
+		if (NULL != local_faces) free(local_faces);
+		return;
+	}
 
-		VL_Vector3 * p0 = local_verts + i * 8 + 0;
-		VL_Vector3 * p1 = p0 + 1;
-		VL_Vector3 * p2 = p1 + 1;
-		VL_Vector3 * p3 = p2 + 1;
-		VL_Vector3 * p4 = p3 + 1;
-		VL_Vector3 * p5 = p4 + 1;
-		VL_Vector3 * p6 = p5 + 1;
-		VL_Vector3 * p7 = p6 + 1;
+	for (VL_Size i = 0; i < in_npoints; i++) {
+		const VL_Vector3F * const point = in_point_cloud + i;
+
+		VL_Vector3F * p0 = local_verts + i * 8 + 0;
+		VL_Vector3F * p1 = p0 + 1;
+		VL_Vector3F * p2 = p1 + 1;
+		VL_Vector3F * p3 = p2 + 1;
+		VL_Vector3F * p4 = p3 + 1;
+		VL_Vector3F * p5 = p4 + 1;
+		VL_Vector3F * p6 = p5 + 1;
+		VL_Vector3F * p7 = p6 + 1;
 
 		p0->x = point->x + halfsize; p0->y = point->y - halfsize; p0->z = point->z + halfsize;
 		p1->x = point->x - halfsize; p1->y = point->y - halfsize; p1->z = point->z + halfsize;
@@ -397,18 +415,18 @@ extern void vl_mesh_from_point_cloud(
 		p6->x = point->x + halfsize; p6->y = point->y + halfsize; p6->z = point->z - halfsize;
 		p7->x = point->x - halfsize; p7->y = point->y + halfsize; p7->z = point->z - halfsize;
 
-		size_t * f0  = local_faces + i * 12 * 3;
-		size_t * f1  = f0  + 3;
-		size_t * f2  = f1  + 3;
-		size_t * f3  = f2  + 3;
-		size_t * f4  = f3  + 3;
-		size_t * f5  = f4  + 3;
-		size_t * f6  = f5  + 3;
-		size_t * f7  = f6  + 3;
-		size_t * f8  = f7  + 3;
-		size_t * f9  = f8  + 3;
-		size_t * f10 = f9  + 3;
-		size_t * f11 = f10 + 3;
+		VL_Size * f0  = local_faces + i * 12 * 3;
+		VL_Size * f1  = f0  + 3;
+		VL_Size * f2  = f1  + 3;
+		VL_Size * f3  = f2  + 3;
+		VL_Size * f4  = f3  + 3;
+		VL_Size * f5  = f4  + 3;
+		VL_Size * f6  = f5  + 3;
+		VL_Size * f7  = f6  + 3;
+		VL_Size * f8  = f7  + 3;
+		VL_Size * f9  = f8  + 3;
+		VL_Size * f10 = f9  + 3;
+		VL_Size * f11 = f10 + 3;
 
 		*f0  = i * 8 + 0; *(f0  + 1) = i * 8 + 1; *(f0  + 2) = i * 8 + 2; // 0 1 2
 		*f1  = i * 8 + 1; *(f1  + 1) = i * 8 + 2; *(f1  + 2) = i * 8 + 3; // 1 2 3
@@ -424,84 +442,129 @@ extern void vl_mesh_from_point_cloud(
 		*f11 = i * 8 + 2; *(f11 + 1) = i * 8 + 4; *(f11 + 2) = i * 8 + 6; // 2 4 6
 
 	}
-	*nverts = local_nverts;
-	*nfaces = local_nfaces;
-	*verts  = local_verts;
-	*faces  = local_faces;
+	*out_nverts = local_nverts;
+	*out_nfaces = local_nfaces;
+	*out_verts  = local_verts;
+	*out_faces  = local_faces;
 }
 
 
-extern VL_Vector3 * vl_point_cloud_from_mesh(
-	VL_Vector3 ** const point_cloud,
-	size_t * npoints,
-	const VL_Vector3 * const verts,
-	const size_t nverts,
-	const size_t * const faces,
-	const size_t nfaces,
-	const double vsize
+extern void vl_point_cloud_res_from_mesh(
+	_VL_OPT_OUT_ VL_Size *                 out_cx,
+	_VL_OPT_OUT_ VL_Size *                 out_cy,
+	_VL_OPT_OUT_ VL_Size *                 out_cz,
+	_VL_OPT_OUT_ VL_Vector3F * const       out_vmin,
+	_VL_OPT_OUT_ VL_Vector3F * const       out_vmax,
+	_VL_IN_      const VL_Vector3F * const in_verts,
+	_VL_IN_      const VL_Size             in_nverts,
+	_VL_IN_      const VL_Float            in_vsize
+	) {
+	VL_Vector3F temp_vmin, temp_vmax;
+	VL_Size temp_cx, temp_cy, temp_cz;
+
+	if (!(in_nverts > 0)) {
+		return;
+	}
+	temp_vmin.x = temp_vmax.x = in_verts[0].x;
+	temp_vmin.y = temp_vmax.y = in_verts[0].y;
+	temp_vmin.z = temp_vmax.z = in_verts[0].z;
+	for (VL_Size i = 0; i < in_nverts; i++) {
+		temp_vmin.x = VL_MIN(temp_vmin.x, in_verts[i].x);
+		temp_vmin.y = VL_MIN(temp_vmin.y, in_verts[i].y);
+		temp_vmin.z = VL_MIN(temp_vmin.z, in_verts[i].z);
+		temp_vmax.x = VL_MAX(temp_vmax.x, in_verts[i].x);
+		temp_vmax.y = VL_MAX(temp_vmax.y, in_verts[i].y);
+		temp_vmax.z = VL_MAX(temp_vmax.z, in_verts[i].z);
+	}
+	if (NULL != out_vmin) {
+		out_vmin->x = temp_vmin.x;
+		out_vmin->y = temp_vmin.y;
+		out_vmin->z = temp_vmin.z;
+	}
+	if (NULL != out_vmax) {
+		out_vmax->x = temp_vmax.x;
+		out_vmax->y = temp_vmax.y;
+		out_vmax->z = temp_vmax.z;
+	}
+	vl_point_cloud_res_from_bbox(&temp_cx, &temp_cy, &temp_cz, &temp_vmin, &temp_vmax, in_vsize);
+	if (NULL != out_cx) { *out_cx = temp_cx; }
+	if (NULL != out_cy) { *out_cy = temp_cy; }
+	if (NULL != out_cz) { *out_cz = temp_cz; }
+}
+
+
+extern void vl_point_cloud_res_from_bbox(
+	_VL_OUT_ VL_Size *                out_cx,
+	_VL_OUT_ VL_Size *                out_cy,
+	_VL_OUT_ VL_Size *                out_cz,
+	_VL_IN_ const VL_Vector3F * const in_vmin,
+	_VL_IN_ const VL_Vector3F * const in_vmax,
+	_VL_IN_ const VL_Float            in_vsize
+	) {
+	*out_cx = (VL_Size)VL_MAX((ceil((in_vmax->x - in_vmin->x) / in_vsize)), 1);
+	*out_cy = (VL_Size)VL_MAX((ceil((in_vmax->y - in_vmin->y) / in_vsize)), 1);
+	*out_cz = (VL_Size)VL_MAX((ceil((in_vmax->z - in_vmin->z) / in_vsize)), 1);
+}
+
+
+extern VL_Vector3F * vl_point_cloud_from_mesh(
+	_VL_OUT_ VL_Vector3F ** const      out_point_cloud,
+	_VL_OUT_ VL_Size * const           out_npoints,
+	_VL_IN_  const VL_Vector3F * const in_verts,
+	_VL_IN_  const VL_Size             in_nverts,
+	_VL_IN_  const VL_Size * const     in_faces,
+	_VL_IN_  const VL_Size             in_nfaces,
+	_VL_IN_  const VL_Float            in_vsize
 	) {
 	// Voxel's bounding box and center
-	VL_Vector3 vmin, vmax, vcenter;
+	VL_Vector3F vmin, vmax, vcenter;
 	// Half of voxel's size
-	const double halfsize = vsize / 2.0;
+	const VL_Float halfsize = in_vsize / 2.0;
 	// Count of mesh's division in X, Y, Z dimensions fron voxel
-	size_t c_x, c_y, c_z;
+	VL_Size cx, cy, cz;
 	// Project plane buff which is used to store hit flag
 	bool * buff_front, * buff_left, * buff_top;
-	// Pre Projected verts in X, Y, Z dimension
-	VL_Vector3 * verts_front, * verts_left, * verts_top;
+	// Pre Projected in_verts in X, Y, Z dimension
+	VL_Vector3F * verts_front, * verts_left, * verts_top;
 	// Integer common counter
-	size_t counter = 0;
+	VL_Size counter = 0;
 	// IDX from X, Y, Z project plane
-	size_t id_front, id_left, id_top;
+	VL_Size id_front, id_left, id_top;
 	// Output point cloud
-	VL_Vector3 * out_point_cloud;
+	VL_Vector3F * temp_point_cloud;
 
-	// Reset npoints to 0 and return NULL if no verts
-	*npoints = 0;
-	if (point_cloud) { *point_cloud = NULL; }
-	if (nverts == 0 || nfaces == 0) {
+	// Reset out_npoints to 0 and out_point_cloud to NULL
+	*out_npoints = 0;
+	if (out_point_cloud) { *out_point_cloud = NULL; }
+
+	// Return NULL if no in_verts
+	if (in_nverts == 0 || in_nfaces == 0) {
 		return NULL;
 	}
 
-	// Calculate voxel's bounding box
-	vmin.x = vmax.x = verts[0].x;
-	vmin.y = vmax.y = verts[0].y;
-	vmin.z = vmax.z = verts[0].z;
-	for (size_t i = 0; i < nverts; i++) {
-		vmin.x = VL_MIN(vmin.x, verts[i].x);
-		vmin.y = VL_MIN(vmin.y, verts[i].y);
-		vmin.z = VL_MIN(vmin.z, verts[i].z);
-		vmax.x = VL_MAX(vmax.x, verts[i].x);
-		vmax.y = VL_MAX(vmax.y, verts[i].y);
-		vmax.z = VL_MAX(vmax.z, verts[i].z);
-	}
-
-	// Mesh division in X, Y, Z direction
-	c_x = (size_t)VL_MAX((ceil((vmax.x - vmin.x) / vsize)), 1);
-	c_y = (size_t)VL_MAX((ceil((vmax.y - vmin.y) / vsize)), 1);
-	c_z = (size_t)VL_MAX((ceil((vmax.z - vmin.z) / vsize)), 1);
+	// Calculate voxel's bounding box and mash division in X, Y, Z direction
+	vl_point_cloud_res_from_mesh(&cx, &cy, &cz, &vmin, &vmax, in_verts, in_nverts, in_vsize);
 
 	// Allocate X, Y, Z project plane to store hit flag
-	buff_front = (bool *)malloc(sizeof(bool) * c_x * c_z);
-	buff_left  = (bool *)malloc(sizeof(bool) * c_y * c_z);
-	buff_top   = (bool *)malloc(sizeof(bool) * c_x * c_y);
+	buff_front = (bool *)malloc(sizeof(bool) * cx * cz);
+	buff_left  = (bool *)malloc(sizeof(bool) * cy * cz);
+	buff_top   = (bool *)malloc(sizeof(bool) * cx * cy);
 	if ((NULL == buff_front) || (NULL == buff_left) || (NULL == buff_top)) {
 		if (NULL != buff_front) free(buff_front);
 		if (NULL != buff_left) free(buff_left);
 		if (NULL != buff_top) free(buff_top);
-		*npoints = 0;
-		if (point_cloud) { *point_cloud = NULL; }
+		*out_npoints = 0;
+		if (out_point_cloud) { *out_point_cloud = NULL; }
 		return NULL;
 	}
-	memset(buff_front, 0, sizeof(bool) * c_x * c_z);
-	memset(buff_left,  0, sizeof(bool) * c_y * c_z);
-	memset(buff_top,   0, sizeof(bool) * c_x * c_y);
+	memset(buff_front, 0, sizeof(bool) * cx * cz);
+	memset(buff_left,  0, sizeof(bool) * cy * cz);
+	memset(buff_top,   0, sizeof(bool) * cx * cy);
 
-	// Pre project verts into X, Y, Z project plane
-	verts_front = (VL_Vector3 *)malloc(sizeof(VL_Vector3) * nverts);
-	verts_left  = (VL_Vector3 *)malloc(sizeof(VL_Vector3) * nverts);
-	verts_top   = (VL_Vector3 *)malloc(sizeof(VL_Vector3) * nverts);
+	// Pre project in_verts into X, Y, Z project plane
+	verts_front = (VL_Vector3F *)malloc(sizeof(VL_Vector3F) * in_nverts);
+	verts_left  = (VL_Vector3F *)malloc(sizeof(VL_Vector3F) * in_nverts);
+	verts_top   = (VL_Vector3F *)malloc(sizeof(VL_Vector3F) * in_nverts);
 	if ((NULL == verts_front) || (NULL == verts_left) || (NULL == verts_top)) {
 		if (NULL != buff_front) free(buff_front);
 		if (NULL != buff_left) free(buff_left);
@@ -509,42 +572,38 @@ extern VL_Vector3 * vl_point_cloud_from_mesh(
 		if (NULL != verts_front) free(verts_front);
 		if (NULL != verts_left) free(verts_left);
 		if (NULL != verts_top) free(verts_top);
-		*npoints = 0;
-		if (point_cloud) { *point_cloud = NULL; }
+		*out_npoints = 0;
+		if (out_point_cloud) { *out_point_cloud = NULL; }
 		return NULL;
 	}
-	for (size_t i = 0; i < nverts; i++) {
-		vl_proj_vert_front(verts_front + i, verts + i);
-		vl_proj_vert_left (verts_left  + i, verts + i);
-		vl_proj_vert_top  (verts_top   + i, verts + i);
+	for (VL_Size i = 0; i < in_nverts; i++) {
+		vl_proj_vert_front(verts_front + i, in_verts + i);
+		vl_proj_vert_left (verts_left  + i, in_verts + i);
+		vl_proj_vert_top  (verts_top   + i, in_verts + i);
 	}
 
-	size_t cnt_front = 0;
-	size_t cnt_left = 0;
-	size_t cnt_top = 0;
 	// Trace Front
-	for (size_t z = 0; z < c_z; z++) {
-		for (size_t x = 0; x < c_x; x++) {
+	for (VL_Size z = 0; z < cz; z++) {
+		for (VL_Size x = 0; x < cx; x++) {
 			int hit;
-			vcenter.x = x * vsize + vmin.x;
+			vcenter.x = x * in_vsize + vmin.x;
 			vcenter.y = 0.0;
-			vcenter.z = z * vsize + vmin.z;
+			vcenter.z = z * in_vsize + vmin.z;
 			vl_proj_vert_front(&vcenter, &vcenter);
-			for (size_t f = 0; f < nfaces; f++) {
-				size_t idx = faces[f * 3 + 0];
-				size_t idy = faces[f * 3 + 1];
-				size_t idz = faces[f * 3 + 2];
+			for (VL_Size f = 0; f < in_nfaces; f++) {
+				VL_Size idx = in_faces[f * 3 + 0];
+				VL_Size idy = in_faces[f * 3 + 1];
+				VL_Size idz = in_faces[f * 3 + 2];
 				hit = vl_is_voxel_tri_intersected_proj(
 						VL_EProjectNone,
 						verts_front + idx,
 						verts_front + idy,
 						verts_front + idz,
 						&vcenter,
-						vsize
+						in_vsize
 						);
 				if (hit) {
-					buff_front[z * c_x + x] = hit;
-					cnt_front++;
+					buff_front[z * cx + x] = hit;
 					break;
 				}
 			}
@@ -552,28 +611,27 @@ extern VL_Vector3 * vl_point_cloud_from_mesh(
 	}
 
 	// Trace Left
-	for (size_t z = 0; z < c_z; z++) {
-		for (size_t y = 0; y < c_y; y++) {
+	for (VL_Size z = 0; z < cz; z++) {
+		for (VL_Size y = 0; y < cy; y++) {
 			int hit;
 			vcenter.x = 0.0;
-			vcenter.y = y * vsize + vmin.y;
-			vcenter.z = z * vsize + vmin.z;
+			vcenter.y = y * in_vsize + vmin.y;
+			vcenter.z = z * in_vsize + vmin.z;
 			vl_proj_vert_left(&vcenter, &vcenter);
-			for (size_t f = 0; f < nfaces; f++) {
-				size_t idx = faces[f * 3 + 0];
-				size_t idy = faces[f * 3 + 1];
-				size_t idz = faces[f * 3 + 2];
+			for (VL_Size f = 0; f < in_nfaces; f++) {
+				VL_Size idx = in_faces[f * 3 + 0];
+				VL_Size idy = in_faces[f * 3 + 1];
+				VL_Size idz = in_faces[f * 3 + 2];
 				hit = vl_is_voxel_tri_intersected_proj(
 						VL_EProjectNone,
 						verts_left + idx,
 						verts_left + idy,
 						verts_left + idz,
 						&vcenter,
-						vsize
+						in_vsize
 						);
 				if (hit) {
-					buff_left[z * c_y + y] = hit;
-					cnt_left++;
+					buff_left[z * cy + y] = hit;
 					break;
 				}
 			}
@@ -581,28 +639,27 @@ extern VL_Vector3 * vl_point_cloud_from_mesh(
 	}
 
 	// Trace Top
-	for (size_t y = 0; y < c_y; y++) {
-		for (size_t x = 0; x < c_x; x++) {
+	for (VL_Size y = 0; y < cy; y++) {
+		for (VL_Size x = 0; x < cx; x++) {
 			int hit;
-			vcenter.x = x * vsize + vmin.x;
-			vcenter.y = y * vsize + vmin.y;
+			vcenter.x = x * in_vsize + vmin.x;
+			vcenter.y = y * in_vsize + vmin.y;
 			vcenter.z = 0.0;
 			vl_proj_vert_top(&vcenter, &vcenter);
-			for (size_t f = 0; f < nfaces; f++) {
-				size_t idx = faces[f * 3 + 0];
-				size_t idy = faces[f * 3 + 1];
-				size_t idz = faces[f * 3 + 2];
+			for (VL_Size f = 0; f < in_nfaces; f++) {
+				VL_Size idx = in_faces[f * 3 + 0];
+				VL_Size idy = in_faces[f * 3 + 1];
+				VL_Size idz = in_faces[f * 3 + 2];
 				hit = vl_is_voxel_tri_intersected_proj(
 						VL_EProjectNone,
 						verts_top + idx,
 						verts_top + idy,
 						verts_top + idz,
 						&vcenter,
-						vsize
+						in_vsize
 						);
 				if (hit) {
-					buff_top[y * c_x + x] = hit;
-					cnt_top++;
+					buff_top[y * cx + x] = hit;
 					break;
 				}
 			}
@@ -610,42 +667,42 @@ extern VL_Vector3 * vl_point_cloud_from_mesh(
 	}
 
 	// Accumulate hit voxel count for point cloud memmory allocation
-	for (size_t x = 0; x < c_x; x++) {
-		for (size_t y = 0; y < c_y; y++) {
-			for (size_t z = 0; z < c_z; z++) {
-				id_front = z * c_x + x;
-				id_left  = z * c_y + y;
-				id_top   = y * c_x + x;
+	for (VL_Size x = 0; x < cx; x++) {
+		for (VL_Size y = 0; y < cy; y++) {
+			for (VL_Size z = 0; z < cz; z++) {
+				id_front = z * cx + x;
+				id_left  = z * cy + y;
+				id_top   = y * cx + x;
 				if (buff_front[id_front] && buff_left[id_left] && buff_top[id_top]) {
-					*npoints += 1;
+					*out_npoints += 1;
 				}
 			}
 		}
 	}
 	// Allocate memmory for point cloud
-	out_point_cloud = (VL_Vector3 *)malloc(sizeof(VL_Vector3) * (*npoints));
-	if (NULL == out_point_cloud) {
+	temp_point_cloud = (VL_Vector3F *)malloc(sizeof(VL_Vector3F) * (*out_npoints));
+	if (NULL == temp_point_cloud) {
 		if (NULL != buff_front) free(buff_front);
 		if (NULL != buff_left) free(buff_left);
 		if (NULL != buff_top) free(buff_top);
 		if (NULL != verts_front) free(verts_front);
 		if (NULL != verts_left) free(verts_left);
 		if (NULL != verts_top) free(verts_top);
-		if (NULL != *point_cloud) free(*point_cloud);
-		*npoints = 0;
-		if (point_cloud) { *point_cloud = NULL; }
+		if (NULL != *out_point_cloud) free(*out_point_cloud);
+		*out_npoints = 0;
+		if (out_point_cloud) { *out_point_cloud = NULL; }
 		return NULL;
 	}
-	for (size_t x = 0; x < c_x; x++) {
-		for (size_t y = 0; y < c_y; y++) {
-			for (size_t z = 0; z < c_z; z++) {
-				id_front = z * c_x + x;
-				id_left  = z * c_y + y;
-				id_top   = y * c_x + x;
+	for (VL_Size x = 0; x < cx; x++) {
+		for (VL_Size y = 0; y < cy; y++) {
+			for (VL_Size z = 0; z < cz; z++) {
+				id_front = z * cx + x;
+				id_left  = z * cy + y;
+				id_top   = y * cx + x;
 				if (buff_front[id_front] && buff_left[id_left] && buff_top[id_top]) {
-					(out_point_cloud + counter)->x = x * vsize + halfsize + vmin.x;
-					(out_point_cloud + counter)->y = y * vsize + halfsize + vmin.y;
-					(out_point_cloud + counter)->z = z * vsize + halfsize + vmin.z;
+					(temp_point_cloud + counter)->x = x * in_vsize + halfsize + vmin.x;
+					(temp_point_cloud + counter)->y = y * in_vsize + halfsize + vmin.y;
+					(temp_point_cloud + counter)->z = z * in_vsize + halfsize + vmin.z;
 					counter++;
 				}
 			}
@@ -659,8 +716,8 @@ extern VL_Vector3 * vl_point_cloud_from_mesh(
 	free(verts_left);
 	free(verts_top);
 
-	if (point_cloud) { *point_cloud = out_point_cloud; }
-	return out_point_cloud;
+	if (out_point_cloud) { *out_point_cloud = temp_point_cloud; }
+	return temp_point_cloud;
 }
 
 
