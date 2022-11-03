@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include <float.h>
-#include <malloc.h>
 #include <string.h>
 
 #ifdef _WIN32
@@ -31,7 +30,7 @@ typedef enum {
  * TODO
  * I'm going to add multi-thread support
  */
-static VL_Size vl_get_cpu_count() {
+_VL_STATIC_ VL_Size vl_get_cpu_count() {
 	long nprocs = -1;
 #ifdef _WIN32
 	#ifndef _SC_NPROCESSORS_ONLN
@@ -51,7 +50,7 @@ static VL_Size vl_get_cpu_count() {
 }
 
 
-static bool vl_is_voxel_tri_intersected_proj(
+_VL_STATIC_ bool vl_is_voxel_tri_intersected_proj(
 	_VL_IN_ VL_ProjectDirection project_axis,
 	_VL_IN_ const VL_Vector3F * const t0,
 	_VL_IN_ const VL_Vector3F * const t1,
@@ -61,7 +60,7 @@ static bool vl_is_voxel_tri_intersected_proj(
 	);
 
 
-static bool vl_is_lineseg_intersected_proj(
+_VL_STATIC_ bool vl_is_lineseg_intersected_proj(
 	_VL_OUT_ VL_Vector3F * out,
 	_VL_IN_  VL_ProjectDirection project_axis,
 	_VL_IN_  const VL_Vector3F * const beg1, const VL_Vector3F * end1,
@@ -69,7 +68,7 @@ static bool vl_is_lineseg_intersected_proj(
 	);
 
 
-static bool vl_is_vert_in_tri_proj(
+_VL_STATIC_ bool vl_is_vert_in_tri_proj(
 	_VL_IN_ VL_ProjectDirection project_axis,
 	_VL_IN_ const VL_Vector3F * const v,
 	_VL_IN_ const VL_Vector3F * const t0,
@@ -78,7 +77,7 @@ static bool vl_is_vert_in_tri_proj(
 	);
 
 
-static void vl_proj_vert_front(VL_Vector3F * dst, const VL_Vector3F * const src) {
+_VL_STATIC_ void vl_proj_vert_front(VL_Vector3F * dst, const VL_Vector3F * const src) {
 	VL_Vector3F temp = { src->x, src->y, src->z };
 	dst->x = temp.x;
 	dst->y = temp.z;
@@ -86,7 +85,7 @@ static void vl_proj_vert_front(VL_Vector3F * dst, const VL_Vector3F * const src)
 }
 
 
-static void vl_proj_vert_left(VL_Vector3F * dst, const VL_Vector3F * const src) {
+_VL_STATIC_ void vl_proj_vert_left(VL_Vector3F * dst, const VL_Vector3F * const src) {
 	VL_Vector3F temp = { src->x, src->y, src->z };
 	dst->x = -temp.y;
 	dst->y =  temp.z;
@@ -94,7 +93,7 @@ static void vl_proj_vert_left(VL_Vector3F * dst, const VL_Vector3F * const src) 
 }
 
 
-static void vl_proj_vert_top(VL_Vector3F * dst, const VL_Vector3F * const src) {
+_VL_STATIC_ void vl_proj_vert_top(VL_Vector3F * dst, const VL_Vector3F * const src) {
 	VL_Vector3F temp = { src->x, src->y, src->z };
 	dst->x = temp.x;
 	dst->y = temp.y;
@@ -102,7 +101,7 @@ static void vl_proj_vert_top(VL_Vector3F * dst, const VL_Vector3F * const src) {
 }
 
 
-static bool vl_is_lineseg_intersected_proj(
+_VL_STATIC_ bool vl_is_lineseg_intersected_proj(
 	_VL_OUT_ VL_Vector3F * out,
 	_VL_IN_  VL_ProjectDirection project_axis,
 	_VL_IN_  const VL_Vector3F * const beg1, const VL_Vector3F * const end1,
@@ -157,7 +156,7 @@ static bool vl_is_lineseg_intersected_proj(
 }
 
 
-static bool vl_is_voxel_tri_intersected_proj(
+_VL_STATIC_ bool vl_is_voxel_tri_intersected_proj(
 	_VL_IN_ VL_ProjectDirection project_axis,
 	_VL_IN_ const VL_Vector3F * const t0,
 	_VL_IN_ const VL_Vector3F * const t1,
@@ -245,7 +244,7 @@ static bool vl_is_voxel_tri_intersected_proj(
 }
 
 
-static bool vl_is_vert_in_tri_proj(
+_VL_STATIC_ bool vl_is_vert_in_tri_proj(
 	_VL_IN_ VL_ProjectDirection project_axis,
 	_VL_IN_ const VL_Vector3F * const v,
 	_VL_IN_ const VL_Vector3F * const t0,
@@ -306,40 +305,40 @@ static bool vl_is_vert_in_tri_proj(
  */
 
 
-extern void vl_vec3_add(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_add(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x + b->x;
 	out->y = a->y + b->y;
 	out->z = a->z + b->z;
 }
 
 
-extern void vl_vec3_sub(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_sub(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x - b->x;
 	out->y = a->y - b->y;
 	out->z = a->z - b->z;
 }
 
 
-extern void vl_vec3_mul(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_mul(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x * b->x;
 	out->y = a->y * b->y;
 	out->z = a->z * b->z;
 }
 
 
-extern void vl_vec3_div(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_div(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->x / b->x;
 	out->y = a->y / b->y;
 	out->z = a->z / b->z;
 }
 
 
-extern void vl_vec3_dot(VL_Float * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_dot(VL_Float * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	*out = a->x * b->x + a->y * b->y + a->z * b->z;
 }
 
 
-extern void vl_vec3_dist(VL_Float * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_dist(VL_Float * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	VL_Float px = a->x * a->x;
 	VL_Float py = a->y * a->y;
 	VL_Float pz = a->z * a->z;
@@ -347,14 +346,14 @@ extern void vl_vec3_dist(VL_Float * out, const VL_Vector3F * const a, const VL_V
 }
 
 
-extern void vl_vec3_cross(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
+_VL_EXTERN_ void vl_vec3_cross(VL_Vector3F * out, const VL_Vector3F * const a, const VL_Vector3F * const b) {
 	out->x = a->y * b->z - a->z * b->y;
 	out->y = a->z * b->x - a->x * b->z;
 	out->y = a->x * b->y - a->y * b->x;
 }
 
 
-extern VL_Float vl_volume_from_mesh(
+_VL_EXTERN_ VL_Float vl_volume_from_mesh(
 	_VL_IN_ const VL_Vector3F * const in_verts,
 	_VL_IN_ const VL_Size             in_nverts,
 	_VL_IN_ const VL_Size * const     in_faces,
@@ -369,7 +368,7 @@ extern VL_Float vl_volume_from_mesh(
 }
 
 
-extern void vl_mesh_from_point_cloud(
+_VL_EXTERN_ void vl_mesh_from_point_cloud(
 	_VL_OUT_ VL_Vector3F ** const      out_verts,
 	_VL_OUT_ VL_Size * const           out_nverts,
 	_VL_OUT_ VL_Size ** const          out_faces,
@@ -449,7 +448,7 @@ extern void vl_mesh_from_point_cloud(
 }
 
 
-extern void vl_point_cloud_res_from_mesh(
+_VL_EXTERN_ void vl_point_cloud_res_from_mesh(
 	_VL_OPT_OUT_ VL_Size *                 out_cx,
 	_VL_OPT_OUT_ VL_Size *                 out_cy,
 	_VL_OPT_OUT_ VL_Size *                 out_cz,
@@ -493,7 +492,7 @@ extern void vl_point_cloud_res_from_mesh(
 }
 
 
-extern void vl_point_cloud_res_from_bbox(
+_VL_EXTERN_ void vl_point_cloud_res_from_bbox(
 	_VL_OUT_ VL_Size *                out_cx,
 	_VL_OUT_ VL_Size *                out_cy,
 	_VL_OUT_ VL_Size *                out_cz,
@@ -507,7 +506,7 @@ extern void vl_point_cloud_res_from_bbox(
 }
 
 
-extern VL_Vector3F * vl_point_cloud_from_mesh(
+_VL_EXTERN_ VL_Vector3F * vl_point_cloud_from_mesh(
 	_VL_OUT_ VL_Vector3F ** const      out_point_cloud,
 	_VL_OUT_ VL_Size * const           out_npoints,
 	_VL_IN_  const VL_Vector3F * const in_verts,

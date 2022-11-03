@@ -1,28 +1,49 @@
-CC := gcc -std=c99
+CC:=gcc -std=c99
+AR:=ar
+CFLAG:=-O3 -I. -fPIC -DNDEBUG -DVL_HIGHP
+
+ifeq ($(OS),Windows_NT)
+	SEP:=\\
+	DELETE:=del
+	DYNAMIC:=voxelizer.dll
+	STATIC:=voxelizer.lib
+	EXAMPLE:=example.exe
+else
+	SEP:=/
+	DELETE:=rm
+	DYNAMIC:=libvoxelizer.so
+	STATIC:=libvoxelizer.a
+	EXAMPLE:=example.out
+endif
 
 
-all: voxelizer.dll voxelizer.exe
+all: $(DYNAMIC) $(STATIC) $(EXAMPLE)
 
 
 voxelizer.o: voxelizer.c
-	$(CC) -fPIC -c $^ -O3 -DNDEBUG
+	$(CC) -c $^ $(CFLAG)
 
 
-voxelizer.dll: voxelizer.o
+$(DYNAMIC): voxelizer.o
 	$(CC) -shared -o $@ $^
 
 
-voxelizer.exe: example/example.c voxelizer.c
-	$(CC) -o $@ $^ -O3 -DNDEBUG -I.
+$(STATIC): voxelizer.o
+	$(AR) crv $@ $^
+
+
+$(EXAMPLE): example/example.c voxelizer.c
+	$(CC) -o $@ $^ $(CFLAG) -DVL_TEST
 
 
 .PHONY: run clean
+.INTERMEDIATE: voxelizer.o
 
 
-run: voxelizer.exe
-	voxelizer.exe
+run: $(EXAMPLE)
+	.$(SEP)$(EXAMPLE)
 
 clean:
-	del voxelizer.exe
-	del voxelizer.dll
-	del *.o
+	@$(DELETE) $(EXAMPLE)
+	@$(DELETE) $(DYNAMIC)
+	@$(DELETE) $(STATIC)
