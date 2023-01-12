@@ -7,7 +7,7 @@
 > # 注意
 > 该模块只支持三角面，不支持多边形。
 > # 编译
->> ## Windows
+>> ## MinGW
 >>> Mingw环境下，直接使用make命令即可生成一个dll和一个用于测试的可执行程序。dll可以在python中进行使用，使用步骤见example.py。
 >>> 如果使用Visual Studio，直接将voxelizer.c和voxelizer.h加入工程编译即可，怎么使用看你自己。
 >> ## Unix-Like
@@ -28,7 +28,7 @@
 > # Attention
 > This module only support triangle faces, polygons are not supported.
 > # Compile
->> ## Windows
+>> ## MinGW
 >>> In Mingw environments, use make command to generate a dll and an executable used for test. Dll can be used in python, follow example.py.
 >>> If your working environment is Visual Studio, add voxelizer.c and voxlizer.h into your project and compile, as for how to use, it's up to you.
 >> ## Unix-Like
