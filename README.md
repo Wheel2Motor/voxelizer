@@ -14,6 +14,8 @@
 >>> 直接使用make命令即可生成一个so和一个用于测试的可执行程序。so可以在python中进行使用，使用步骤见example.py。
 > # 参考
 > [STL模型像素化](https://zhuanlan.zhihu.com/p/410306876)
+> # Bug
+>>> 在M1的Mac上计算错误，目前正在排查
 
 ---
 
@@ -34,6 +36,8 @@
 >>> As for substituting voxelizer.exe with voxelizer, it's up to you.
 > # Reference
 > [STL Mesh Voxelize](https://zhuanlan.zhihu.com/p/410306876)
+> # Bug
+>>> Calculation error on Mac with M1 soc
 
 ---
 
