@@ -94,5 +94,5 @@ if __name__ == "__main__":
     faces = [0, 1, 2]
     cx, cy, cz = point_cloud_res_from_mesh(verts, 0.1)
     volume = vl_volume_from_mesh(verts, faces, 0.1)
-    print(cx, cy, cz)
-    print(volume)
+    print("%d %d %d" % (cx, cy, cz))
+    print("Volume: %.6f" % volume)
