@@ -2,19 +2,9 @@ CC:=gcc -std=c99
 AR:=ar
 CFLAG:=-O3 -I. -fPIC -DNDEBUG -DVL_HIGHP
 
-ifeq ($(OS),Windows_NT)
-	SEP:=\\
-	DELETE:=del
-	DYNAMIC:=voxelizer.dll
-	STATIC:=voxelizer.lib
-	EXAMPLE:=example.exe
-else
-	SEP:=/
-	DELETE:=rm
-	DYNAMIC:=libvoxelizer.so
-	STATIC:=libvoxelizer.a
-	EXAMPLE:=example.out
-endif
+DYNAMIC:=libvoxelizer.so
+STATIC:=libvoxelizer.a
+EXAMPLE:=example.out
 
 
 all: $(DYNAMIC) $(STATIC) $(EXAMPLE)
@@ -42,11 +32,11 @@ $(EXAMPLE): example/example.c voxelizer.c
 
 run: $(EXAMPLE) $(DYNAMIC)
 	@echo ---- Binary ----
-	.$(SEP)$(EXAMPLE)
+	./$(EXAMPLE)
 	@echo ---- Python DLL ----
-	python .$(SEP)example$(SEP)example.py
+	python ./example/example.py
 
 clean:
-	@$(DELETE) $(EXAMPLE)
-	@$(DELETE) $(DYNAMIC)
-	@$(DELETE) $(STATIC)
+	@rm $(EXAMPLE)
+	@rm $(DYNAMIC)
+	@rm $(STATIC)
