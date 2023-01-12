@@ -3,7 +3,7 @@ import sys
 import ctypes
 
 
-dll = ctypes.cdll.LoadLibrary(os.path.abspath(os.path.join(os.path.dirname(__file__), "voxelizer.dll")))
+dll = ctypes.cdll.LoadLibrary(os.path.join(os.path.abspath("."), "voxelizer.dll"))
 
 
 class VL_Vector3F(ctypes.Structure):
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     verts = [
         xyz2vec3( 1.0,  1.0, -1.0),
         xyz2vec3(-1.0, -1.0, -1.0),
-        xyz2vec3( 0.0,  0.0,  1.0),
+        xyz2vec3( 0.0,  0.0,  0.0),
         ]
     faces = [0, 1, 2]
     cx, cy, cz = point_cloud_res_from_mesh(verts, 0.1)

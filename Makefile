@@ -40,8 +40,11 @@ $(EXAMPLE): example/example.c voxelizer.c
 .INTERMEDIATE: voxelizer.o
 
 
-run: $(EXAMPLE)
+run: $(EXAMPLE) $(DYNAMIC)
+	@echo ---- Binary ----
 	.$(SEP)$(EXAMPLE)
+	@echo ---- Python DLL ----
+	python .$(SEP)example$(SEP)example.py
 
 clean:
 	@$(DELETE) $(EXAMPLE)
