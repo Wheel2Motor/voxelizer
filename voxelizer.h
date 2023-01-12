@@ -65,7 +65,8 @@ _VL_STATIC_ void vl_vec3_cross(VL_Vector3F * out, const VL_Vector3F * const a, c
  * @innverts:    Input vert count
  * @invsize:     Input voxel size
  */
-_VL_EXTERN_ void vl_point_cloud_res_from_mesh(
+_VL_EXTERN_ void
+vl_point_cloud_res_from_mesh(
 	_VL_OPT_OUT_ VL_Size *                 out_cx,
 	_VL_OPT_OUT_ VL_Size *                 out_cy,
 	_VL_OPT_OUT_ VL_Size *                 out_cz,
@@ -87,7 +88,8 @@ _VL_EXTERN_ void vl_point_cloud_res_from_mesh(
  * @invmax:      Input bbox max
  * @invsize:     Input voxel size
  */
-_VL_EXTERN_ void vl_point_cloud_res_from_bbox(
+_VL_EXTERN_ void
+vl_point_cloud_res_from_bbox(
 	_VL_OUT_ VL_Size *                 out_cx,
 	_VL_OUT_ VL_Size *                 out_cy,
 	_VL_OUT_ VL_Size *                 out_cz,
@@ -109,7 +111,8 @@ _VL_EXTERN_ void vl_point_cloud_res_from_bbox(
  * @nfaces:      Input face count
  * @vsize:       Input voxel size
  */
-_VL_EXTERN_ VL_Vector3F * vl_point_cloud_from_mesh(
+_VL_EXTERN_ VL_Vector3F *
+vl_point_cloud_from_mesh(
 	_VL_OPT_OUT_ VL_Vector3F ** const      out_point_cloud,
 	_VL_OUT_     VL_Size * const           out_npoints,
 	_VL_IN_      const VL_Vector3F * const in_verts,
@@ -123,15 +126,16 @@ _VL_EXTERN_ VL_Vector3F * vl_point_cloud_from_mesh(
 /*
  * Generate mesh fron point cloud, verts and faces pointer should be freed manually after use
  *
- * @verts:       Ouput vertices pointer
- * @nverts:      Ouput vertex count pointer
- * @faces:       Ouput faces pointer
- * @nfaces:      Ouput face count pointer
- * @point_cloud: Input point cloud pointer
+ * @verts:       Ouput vertices
+ * @nverts:      Ouput vertex count
+ * @faces:       Ouput faces
+ * @nfaces:      Ouput face count
+ * @point_cloud: Input point cloud
  * @npoints:     Input point cloud
  * @vsize:       Input voxel size
  */
-_VL_EXTERN_ void vl_mesh_from_point_cloud(
+_VL_EXTERN_ void
+vl_mesh_from_point_cloud(
 	_VL_OUT_ VL_Vector3F ** const      out_verts,
 	_VL_OUT_ VL_Size * const           out_nverts,
 	_VL_OUT_ VL_Size ** const          out_faces,
@@ -153,7 +157,8 @@ _VL_EXTERN_ void vl_mesh_from_point_cloud(
  * @nfaces:      Input face count
  * @vsize:       Input voxel size
  */
-_VL_EXTERN_ VL_Float vl_volume_from_mesh(
+_VL_EXTERN_ VL_Float
+vl_volume_from_mesh(
 	_VL_IN_ const VL_Vector3F * in_verts,
 	_VL_IN_ const VL_Size       in_nverts,
 	_VL_IN_ const VL_Size *     in_faces,
