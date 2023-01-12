@@ -3,7 +3,7 @@ import sys
 import ctypes
 
 
-dll = ctypes.cdll.LoadLibrary(os.path.join(os.path.abspath("."), "voxelizer.dll"))
+dll = ctypes.cdll.LoadLibrary(os.path.join(os.path.abspath("."), "libvoxelizer.so"))
 
 
 class VL_Vector3F(ctypes.Structure):
