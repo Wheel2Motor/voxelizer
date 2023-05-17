@@ -1,43 +1,33 @@
-> # Voxelizer
-> 用C语言编写的Voxelizer，没有任何依赖项。
-> 提供了快速的网格体积计算和点云生成以及体素化。
-> # 我为什么要编写这个模块
-> 我遇到了一个需要粗略计算模型体积的需求，但是在GitHub上没有一个轻量无依赖的纯C代码实现的Voxelizer，仅有的一个还有一些bug。
-> 另外，我希望该实现能够轻松集成到Python进行使用。 
-> # 注意
-> 该模块只支持三角面，不支持多边形。
-> # 编译
->> ## MinGW
->>> Mingw环境下，直接使用make命令即可生成一个dll和一个用于测试的可执行程序。dll可以在python中进行使用，使用步骤见example.py。
->>> 如果使用Visual Studio，直接将voxelizer.c和voxelizer.h加入工程编译即可，怎么使用看你自己。
->> ## Unix-Like
->>> 直接使用make命令即可生成一个so和一个用于测试的可执行程序。so可以在python中进行使用，使用步骤见example.py。
-> # 参考
-> [STL模型像素化](https://zhuanlan.zhihu.com/p/410306876)
-> # Bug
->>> 在M1的Mac上计算错误，目前正在排查
+[Simplified Chinese](README_CHS.md)
 
----
+# Voxelizer
+Voxelizer writen in C without any dependencies.
+Fast mesh volume accumulation, point cloud generation and voxelization functionalities are provided. 
 
-> # Voxelizer
-> Voxelizer writen in C without any dependencies.
-> Fast mesh volume accumulation, point cloud generation and voxelization functionalities are provided. 
-> # Why I wrote this module
-> I've faced the need for calculate mesh volume in approximation, but no lightweight **voxelizer** which includes no dependency and was coded in pure C was found on GitHub, the only one I've found has some bugs. 
-> In addition, I hope the implementation can be embeded into python easyly.
-> # Attention
-> This module only support triangle faces, polygons are not supported.
-> # Compile
->> ## MinGW
->>> In Mingw environments, use make command to generate a dll and an executable used for test. Dll can be used in python, follow example.py.
->>> If your working environment is Visual Studio, add voxelizer.c and voxlizer.h into your project and compile, as for how to use, it's up to you.
->> ## Unix-Like
->>> Just use make command to generate a **so** file and an executable used for test. so can be used in python, follow example.py.
->>> As for substituting voxelizer.exe with voxelizer, it's up to you.
-> # Reference
-> [STL Mesh Voxelize](https://zhuanlan.zhihu.com/p/410306876)
-> # Bug
->>> Calculation error on Mac with M1 soc
+# Why I wrote this module
+I hope this functionality to be a pure C implementation and simple enough with no dependency.
+
+# Attention
+This module only support triangle faces, polygons are not supported.
+
+# Compile
+
+## MinGW
+In Mingw environments, use make command to generate a dll and an executable used for test. 
+You may need to replace __a.out__ in the __Makefile__ with __a.exe__.
+Dll can be used in python, follow example.py. 
+
+## Visual Studio
+If you are using Visual Studio, just create an empty C++ project, then drop voxelizer.c and voxelizer.h into the project, then compile it.
+
+## Unix-Like
+Just use __make__ command to generate a **so** file and an executable used for test. so can be used in python, follow example.py.
+
+# Reference
+[STL Mesh Voxelize](https://zhuanlan.zhihu.com/p/410306876)
+
+# Bug
+Calculation error on Mac with M1 soc
 
 ---
 
