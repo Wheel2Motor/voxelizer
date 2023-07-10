@@ -2,8 +2,8 @@ CC:=gcc -std=c99
 AR:=ar
 CFLAG:=-O3 -I. -fPIC -DNDEBUG -DVL_HIGHP
 ifeq ($(OS),Windows_NT)
-	DYNAMIC:=libvoxelizer.dll
-	STATIC:=libvoxelizer.lib
+	DYNAMIC:=voxelizer.dll
+	STATIC:=voxelizer.lib
 	EXAMPLE:=example.exe
 else
 	DYNAMIC:=libvoxelizer.so
