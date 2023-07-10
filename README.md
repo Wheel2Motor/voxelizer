@@ -5,13 +5,6 @@ Voxelizer
 
 提供了快速的网格体积计算和点云生成以及体素化。
 
-<div align="left">
-<img src="img/img1.png" width="512px"></img>
-<img src="img/img2.png" width="512px"></img>
-<img src="img/img3.png" width="512px"></img>
-<img src="img/img4.png" width="512px"></img>
-</div>
-
 # 注意
 该模块只支持三角面，不支持多边形。
 
@@ -33,3 +26,10 @@ dll可以在python中进行使用，使用步骤见example.py。
 
 # Bug
 在M1芯片的Mac上计算错误，原因未知。
+
+<div align="left">
+<img src="img/img1.png" width="512px"></img>
+<img src="img/img2.png" width="512px"></img>
+<img src="img/img3.png" width="512px"></img>
+<img src="img/img4.png" width="512px"></img>
+</div>
