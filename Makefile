@@ -1,14 +1,18 @@
 CC:=gcc -std=c99
 AR:=ar
 CFLAG:=-O3 -I. -fPIC -DNDEBUG -DVL_HIGHP
-ifeq ($(OS),Windows_NT)
-	DYNAMIC:=voxelizer.dll
-	STATIC:=voxelizer.lib
-	EXAMPLE:=example.exe
+ifeq ($(OS), Windows_NT)
+	SEP:=\\
+	DYNAMIC:=.$(SEP)voxelizer.dll
+	STATIC:=.$(SEP)voxelizer.lib
+	EXAMPLE:=.$(SEP)example.exe
+	DEL:=cmd /c del
 else
-	DYNAMIC:=libvoxelizer.so
-	STATIC:=libvoxelizer.a
-	EXAMPLE:=example.out
+	SEP:=/
+	DYNAMIC:=.$(SEP)libvoxelizer.so
+	STATIC:=.$(SEP)libvoxelizer.a
+	EXAMPLE:=.$(SEP)example.out
+	DEL:=rm
 endif
 
 
@@ -31,22 +35,18 @@ $(EXAMPLE): example/example.c voxelizer.c
 	$(CC) -o $@ $^ $(CFLAG) -DVL_TEST
 
 
-.PHONY: run clean
-.INTERMEDIATE: voxelizer.o
-
-
 run: $(EXAMPLE) $(DYNAMIC)
-	@echo ---- Binary ----
-	./$(EXAMPLE)
-	@echo ---- Python DLL ----
-	python ./example/example.py
+	@echo "---- Binary ----"
+	$(EXAMPLE)
+	@echo "---- Python ----"
+	python .$(SEP)example$(SEP)example.py
+
 
 clean:
-	ifeq ($(OS),Windows_NT)
-		CMD_DEL = DEL
-	else
-		CMD_DEL = rm
-	endif
-	@$(CMD_DEL) $(EXAMPLE)
-	@$(CMD_DEL) $(DYNAMIC)
-	@$(CMD_DEL) $(STATIC)
+	$(DEL) $(EXAMPLE)
+	$(DEL) $(DYNAMIC)
+	$(DEL) $(STATIC)
+
+
+.PHONY: run clean
+.INTERMEDIATE: voxelizer.o
