@@ -42,6 +42,11 @@ run: $(EXAMPLE) $(DYNAMIC)
 	python ./example/example.py
 
 clean:
-	@rm $(EXAMPLE)
-	@rm $(DYNAMIC)
-	@rm $(STATIC)
+	ifeq ($(OS),Windows_NT)
+		CMD_DEL = DEL
+	else
+		CMD_DEL = rm
+	endif
+	@$(CMD_DEL) $(EXAMPLE)
+	@$(CMD_DEL) $(DYNAMIC)
+	@$(CMD_DEL) $(STATIC)
