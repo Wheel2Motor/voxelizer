@@ -19,7 +19,7 @@ Voxelizer
 
 ## MinGW及类Unix环境
 
-Mingw环境下，直接使用make命令即可生成一个dll和一个用于测试的可执行程序。
+直接使用make命令即可生成一个dll和一个用于测试的可执行程序。
 
 dll可以在python中进行使用，使用步骤见example.py。
 
